@@ -3,7 +3,7 @@ import time
 from contextlib import contextmanager
 
 from flask_sqlalchemy import SQLAlchemy as _SQLAlchemy, BaseQuery
-from sqlalchemy import Column, SmallInteger, String, Integer
+from sqlalchemy import Column, SmallInteger, String, Integer, BigInteger
 
 from app.libs.wyy_exception import UserNotFoundException
 from app.utils.date_util import get_current_timestamp
@@ -44,7 +44,7 @@ db = SQLAlchemy(query_class=Query)
 
 class BaseModel(db.Model):
     __abstract__ = True
-    create_time = Column(Integer, default=time.time()) # 保存时间戳(为毫秒级)
+    create_time = Column(BigInteger, default=get_current_timestamp()) # 保存时间戳(为毫秒级)
     status = Column(SmallInteger, default=0) # 0表正常状态， 可用于逻辑删除
 
 

@@ -10,22 +10,40 @@ from app.libs.enums import ClientTypeEnum, ScopeEnum
 from app.models.user_model import UserModel
 from .base_form import BaseForm
 
-
+# ***************************************************UserForm start
 class UserSaveForm(BaseForm):
+    """
+    用户注册校验表单
+    """
     user_role = IntegerField()
     user_name = StringField(validators=[DataRequired(), Length(min=2, max=6)])
     user_phone = StringField(validators=[DataRequired(), Length(min=11, max=11), Regexp(regex=r'^1\d{10}$')])
     password = StringField(validators=[DataRequired(), Length(min=6, max=30)])
 
     def validate_user_role(self, field):
+        """
+        如果传入的有user_role用户权限，则需要进行校验
+        :param field:
+        :return:
+        """
         if not field.data:
             return False
         try:
             role = ScopeEnum(field.data)
         except ValueError as e:
             raise e
-        self.user_role.data = role
+        self.user_role.data = field.data
 
+
+class UserLoginForm(BaseForm):
+    """
+    用户登录
+    """
+    user_phone = StringField(validators=[DataRequired(), Regexp(regex=r'^1\d{10}$')])
+    password = StringField(validators=[DataRequired()])
+
+
+# ***************************************************UserForm end
 
 class ClientForm(BaseForm):
     """

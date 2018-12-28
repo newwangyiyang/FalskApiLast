@@ -23,7 +23,7 @@ class BaseScope:
 class UserScope(BaseScope):
     # allow_api = ['v1.user+super_get_user', 'v1.user+get_user', 'v1.user+delete_user']
     forbidden_api = ['v1.user+super_get_user']
-    allow_module = ['v1.user', 'v1.book']
+    allow_module = ['v1.user', 'v1.book'] # UserScope权限能访问所有user/book的视图函数，除了v1.user+super_get_user
 
 
 class AdminScope(BaseScope):
@@ -33,9 +33,10 @@ class AdminScope(BaseScope):
     def __init__(self):
         self + UserScope
 
+
 class SuperAdminScope(BaseScope):
     """
-    权限依次递增
+    权限依次累加
     """
     def __init__(self):
         self + AdminScope

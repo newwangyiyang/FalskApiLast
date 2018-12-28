@@ -20,11 +20,11 @@ user.scope
 """
 
 
-def generate_auth_token(user_id, scope=None, expiration=7200):
+def generate_auth_token(user_id, scope='UserScope', expiration=7200):
     """
     生成token
     :param user_id:
-    :param scope:
+    :param scope:默认拥有UserScope权限
     :param expiration:
     :return:
     """
@@ -59,9 +59,8 @@ def verigy_auth_token(token):
         raise AuthFailedException(msg='无效token')
     except SignatureExpired:
         raise AuthFailedException(msg='token已失效')
-        user_id = data['user_id']
+    user_id = data['user_id']
     scope = data['scope']
-
     allow = is_in_scope(scope, request.endpoint)
     """
     该方法里面是对权限的具体控制，控制每个视图函数，模块对scope的相应开放权限

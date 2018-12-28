@@ -14,5 +14,5 @@ SQLALCHEMY_COMMIT_ON_TEARDOWN = True
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 
 # 设置文件上传
-UPLOADED_FILE_DEST = os.path.join(os.getcwd(),'static/upload/image')
+UPLOADED_FILE_DEST = os.path.join(os.getcwd(),'static/upload')
 UPLOADED_FILE_ALLOW = IMAGES

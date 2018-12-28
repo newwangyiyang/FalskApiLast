@@ -25,16 +25,27 @@ def init_limiter(app):
 
 
 def register_blueprint_v1(app):
+    """
+    注册蓝图
+    :param app:
+    :return:
+    """
     from app.api.v1 import create_blueprint_v1
     app.register_blueprint(create_blueprint_v1(), url_prefix='/v1')
 
 
 def init_upload(app):
     """将创建的文件上传对象注册到核心对象app上"""
-    configure_uploads(app, set_file)
+    configure_uploads(app, [ set_file ])
+    # configure_uploads(app, [ set_file01, set_file02 ])  注册多个UploadSet实例
 
 
 def register_plugin(app):
+    """
+    扩展插件的补充
+    :param app:
+    :return:
+    """
     from app.models.base_model import db
     """数据库连接"""
     ''

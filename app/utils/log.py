@@ -1,5 +1,7 @@
 import logging
 import os, time
+from logging.handlers import TimedRotatingFileHandler
+
 
 def init_logger(app):
     def make_dir(make_dir_path):
@@ -9,14 +11,14 @@ def init_logger(app):
         return path
 
     log_dir_name = "logs"
-    log_file_name = 'logger-' + time.strftime('%Y-%m-%d', time.localtime(time.time())) + '.log'
+    log_file_name = 'logger-' + time.strftime('%Y-%m-%d_%M', time.localtime(time.time())) + '.log'
     log_file_folder = os.path.abspath(
         os.path.join(os.path.dirname(__file__), os.pardir, os.pardir)) + os.sep + log_dir_name
     make_dir(log_file_folder)
     log_file_str = log_file_folder + os.sep + log_file_name
     log_level = logging.INFO
-
-    handler = logging.FileHandler(log_file_str, encoding='UTF-8')
+    handler = TimedRotatingFileHandler(filename=log_file_str, encoding='UTF-8', when='M', interval=1)
+    handler.extMatch = r"^\d{4}-\d{2}-\d{2}_\d{2}.log$"
     handler.setLevel(log_level)
     logging_format = logging.Formatter(
         '%(asctime)s - %(levelname)s - %(filename)s - %(funcName)s - %(lineno)s - %(message)s')
