@@ -17,7 +17,7 @@ def init_logger(app):
 
     log_level = LEVELS.get(app.config['LOG_LEVEL'].lower(), 'info')
 
-    rotate_handler = TimedRotatingFileHandler(log_file, when='S', interval=1, encoding='utf-8')
+    rotate_handler = TimedRotatingFileHandler(log_file, when='D', interval=1, encoding='utf-8')
     rotate_handler.suffix = "%Y%m%d"
     rotate_handler.setLevel(log_level)
 

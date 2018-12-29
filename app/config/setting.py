@@ -5,8 +5,6 @@ import os
 
 from flask_uploads import IMAGES
 
-DEBUG = True
-
 TOKEN_EXPIRATION = 30 * 24 * 3600
 
 # sqlalchemy
