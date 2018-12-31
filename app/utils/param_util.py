@@ -9,7 +9,7 @@ def get_request_params(request):
         :param request:
         :return:
     """
-    return request.get_json(silent=True) or request.args.to_dict() or request.form.to_dict() or '无参'
+    return request.get_json(silent=True) or request.args.to_dict() or request.form.to_dict() or 'NoParams'
 
 
 def get_url_no_params(request):

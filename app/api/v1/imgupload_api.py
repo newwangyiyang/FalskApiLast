@@ -32,8 +32,6 @@ api = Redprint('imgupload')
 # 单文件上传示例
 @api.route('/img_upload', methods=['POST'])
 def img_upload():
-    current_app.logger.info('****************************************************************')
-    current_app.logger.info('****************************************************************')
     form = MyFileForm().validate_for_api()
     image = form.file.data
     suffix = os.path.splitext(image.filename)[1]
