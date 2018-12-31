@@ -1,31 +1,28 @@
-import logging, os
-from logging.handlers import RotatingFileHandler
+import logging
+import os
+from logging.handlers import TimedRotatingFileHandler
 
 
-def init_logger(app):
-    formatter = logging.Formatter(
-            '%(asctime)s %(levelname)s: %(message)s '
-            '[in %(pathname)s:%(lineno)d]')
-    error_log = os.path.join(app.root_path, app.config["ERROR_LOG"])
-    error_file_handler = RotatingFileHandler(
-        error_log,
-        maxBytes=10*1024*1024,
-        backupCount=30,
-        encoding='utf-8'
-    )
-    error_file_handler.setLevel(logging.ERROR)
-    error_file_handler.setFormatter(formatter)
-    app.logger.addHandler(error_file_handler)
+def singleton(cls, *args, **kw):
+    instances = {}
 
-    info_log = os.path.join(app.root_path, app.config["INFO_LOG"])
-    info_file_handler = RotatingFileHandler(
-        info_log,
-        maxBytes=10*1024*1024,
-        backupCount=30,
-        encoding='utf-8'
-    )
-    info_file_handler.setLevel(logging.INFO)
-    info_file_handler.setFormatter(formatter)
-    app.logger.addHandler(info_file_handler)
+    def _singleton():
+        if cls not in instances:
+            instances[cls] = cls(*args, **kw)
+        return instances[cls]
 
-    app.logger.setLevel(logging.DEBUG)
+    return _singleton
+
+
+@singleton
+class init_logger(object):
+    logfile = os.path.join(os.getcwd() + '/', 'logs/log.log')
+    if not os.path.exists(os.path.dirname(logfile)):
+        os.makedirs(os.path.dirname(logfile))
+
+    logger = logging.getLogger()
+    logger.setLevel(logging.INFO)
+    file_handler = TimedRotatingFileHandler(logfile, 'D', backupCount=0, encoding='utf-8')
+    file_handler.setFormatter(
+    logging.Formatter('%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
+    logger.addHandler(file_handler)

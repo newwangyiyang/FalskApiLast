@@ -2,7 +2,7 @@
     imgupload 上传图片模块
 """
 import os
-
+import logging
 from flask import request, current_app
 from app.libs.upload_file import set_file
 from app.libs.redprint import Redprint
@@ -32,6 +32,7 @@ api = Redprint('imgupload')
 # 单文件上传示例
 @api.route('/img_upload', methods=['POST'])
 def img_upload():
+    logging.getLogger().info('开始************************************')
     form = MyFileForm().validate_for_api()
     image = form.file.data
     suffix = os.path.splitext(image.filename)[1]
