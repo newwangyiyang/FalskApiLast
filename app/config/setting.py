@@ -7,7 +7,7 @@ from flask_uploads import IMAGES
 
 TOKEN_EXPIRATION = 30 * 24 * 3600
 
-DEBUG = False
+DEBUG = True
 
 # sqlalchemy
 SQLALCHEMY_COMMIT_ON_TEARDOWN = True
@@ -20,5 +20,3 @@ UPLOADED_FILE_ALLOW = IMAGES
 #设置log日志
 ERROR_LOG = "../logs/error.log"
 INFO_LOG = "../logs/info.log"
-# LOG_FILENAME = 'fastapi.log'
-# LOG_LEVEL = 'info'

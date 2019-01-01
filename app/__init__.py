@@ -56,7 +56,7 @@ def register_plugin(app):
     init_limiter(app)
     """限制IP的访问次数，可作用于反爬虫"""
 
-    init_logger()
+    init_logger(app)
     """日志初始化"""
 
     init_upload(app)

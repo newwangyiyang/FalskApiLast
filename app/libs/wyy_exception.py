@@ -9,7 +9,7 @@ class ParameterException(BaseApiException):
     """
         请求参数异常类
     """
-    code = 400
+    code = 200
     msg = ''
     status_code = 1
 
@@ -25,23 +25,23 @@ class SuccessException(BaseApiException):
 
 
 class ServerException(BaseApiException):
-    code = 500
+    code = 200
     msg = '服务器错误'
     status_code = 1
 
 
 class UserNotFoundException(BaseApiException):
-    code = 404
+    code = 200
     msg = '用户未找到'
     status_code = 1
 
 
 class AuthFailedException(BaseApiException):
-    code = 401
+    code = 200
     msg = '密码错误'
     status_code = 1
 
 class ForbiddenException(BaseApiException):
-    code = 403
+    code = 200
     msg = '禁止访问'
     status_code = 1

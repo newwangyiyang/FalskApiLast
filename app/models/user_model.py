@@ -71,7 +71,7 @@ class UserModel(BaseModel):
         :param password:
         :return:
         """
-        user = UserModel.query.filter(user_phone==user_phone).first_or_404()
+        user = UserModel.query.filter(UserModel.user_phone==user_phone).first_or_404()
         if not user.check_password(password): # 校验密码是否正确，校验失败会抛异常
             raise AuthFailedException()
         role = user.user_role
@@ -82,5 +82,4 @@ class UserModel(BaseModel):
             scope = ScopeEnum.AdminScope.name
         elif ScopeEnum(role) == ScopeEnum.SuperAdminScope:
             scope = ScopeEnum.SuperAdminScope.name
-        # scope = 'AdminScope' if user.auth == 2 else 'UserScope'
         return {'user_id': user.user_id, 'scope': scope}

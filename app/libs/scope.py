@@ -22,7 +22,7 @@ class BaseScope:
 
 class UserScope(BaseScope):
     # allow_api = ['v1.user+super_get_user', 'v1.user+get_user', 'v1.user+delete_user']
-    forbidden_api = ['v1.user+super_get_user']
+    # forbidden_api = ['v1.user+super_get_user']
     allow_module = ['v1.user', 'v1.book'] # UserScope权限能访问所有user/book的视图函数，除了v1.user+super_get_user
 
 
@@ -31,7 +31,7 @@ class AdminScope(BaseScope):
     allow_module = ['v1.user']
 
     def __init__(self):
-        self + UserScope
+        self + UserScope()
 
 
 class SuperAdminScope(BaseScope):
@@ -39,15 +39,16 @@ class SuperAdminScope(BaseScope):
     权限依次累加
     """
     def __init__(self):
-        self + AdminScope
+        self + AdminScope()
 
 
 def is_in_scope(scope, endpoint):
     # 注意：现在的endpoint的结构是  v1.user+getUser
-    scope = globals()[scope]
+    scope = globals()[scope]()
     # 对传入的scope进行实例化 AdminScope() UserScope() SuperAdminScope()
     red_name = endpoint.split('+')
     module_name = red_name[0]
+    print(module_name, scope.forbidden_api, scope.allow_module)
     if module_name in scope.forbidden_api:
         """
             配置哪些视图函数禁止访问

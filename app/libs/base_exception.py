@@ -6,7 +6,7 @@ from werkzeug.exceptions import HTTPException
 
 
 class BaseApiException(HTTPException):
-    code = 500
+    code = 200
     msg = '未知错误'
     status_code = 1
     data = None

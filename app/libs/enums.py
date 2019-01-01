@@ -24,6 +24,6 @@ class ScopeEnum(Enum):
     scoped枚举类，用户权限管理
     该权限从数据库里读出
     """
-    UserScope = 0
-    AdminScope = 10
-    SuperAdminScope = 100
+    UserScope = 10
+    AdminScope = 100
+    SuperAdminScope = 1000
