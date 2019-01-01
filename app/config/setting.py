@@ -18,5 +18,5 @@ UPLOADED_FILE_DEST = os.path.join(os.getcwd(),'static/upload')
 UPLOADED_FILE_ALLOW = IMAGES
 
 #设置log日志
-ERROR_LOG = "../logs/error.log"
-INFO_LOG = "../logs/info.log"
+ERROR_LOG = "logs/error.log"
+INFO_LOG = "logs/info.log"
