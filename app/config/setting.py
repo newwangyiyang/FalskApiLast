@@ -16,3 +16,8 @@ SQLALCHEMY_TRACK_MODIFICATIONS = True
 # 设置文件上传
 UPLOADED_FILE_DEST = os.path.join(os.getcwd(),'static/upload')
 UPLOADED_FILE_ALLOW = IMAGES
+
+#设置log日志
+LOG_PATH = 'logs/'
+LOG_FILENAME = 'fastapi.log'
+LOG_LEVEL = 'info'

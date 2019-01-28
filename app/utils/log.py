@@ -4,23 +4,31 @@ from logging.handlers import TimedRotatingFileHandler
 
 
 def init_logger(app):
-    def make_dir(make_dir_path):
-        path = make_dir_path.strip()
-        if not os.path.exists(path):
-            os.makedirs(path)
-        return path
+    LEVELS = {'debug': logging.DEBUG,
+              'info':  logging.INFO,
+              'warning': logging.WARNING,
+              'error': logging.ERROR,
+              'critical': logging.CRITICAL}
 
-    log_dir_name = "logs"
-    log_file_name = 'logger-' + time.strftime('%Y-%m-%d_%M', time.localtime(time.time())) + '.log'
-    log_file_folder = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), os.pardir, os.pardir)) + os.sep + log_dir_name
-    make_dir(log_file_folder)
-    log_file_str = log_file_folder + os.sep + log_file_name
-    log_level = logging.INFO
-    handler = TimedRotatingFileHandler(filename=log_file_str, encoding='UTF-8', when='M', interval=1)
-    handler.extMatch = r"^\d{4}-\d{2}-\d{2}_\d{2}.log$"
-    handler.setLevel(log_level)
-    logging_format = logging.Formatter(
-        '%(asctime)s - %(levelname)s - %(filename)s - %(funcName)s - %(lineno)s - %(message)s')
-    handler.setFormatter(logging_format)
-    app.logger.addHandler(handler)
+    log_dir = os.path.join(app.config['LOG_PATH'])
+    log_file = os.path.join(app.config['LOG_PATH'], app.config['LOG_FILENAME'])
+    if not os.path.isdir(log_dir):
+        os.mkdir(log_dir)
+
+    log_level = LEVELS.get(app.config['LOG_LEVEL'].lower(), 'info')
+
+    rotate_handler = TimedRotatingFileHandler(log_file, when='S', interval=1, encoding='utf-8')
+    rotate_handler.suffix = "%Y%m%d"
+    rotate_handler.setLevel(log_level)
+
+    stream_handler = logging.StreamHandler()
+    stream_handler.setLevel(log_level)
+
+    formatter = logging.Formatter('%(asctime)-10s %(levelname)s %(filename)s %(lineno)d %(process)d %(message)s')
+    rotate_handler.setFormatter(formatter)
+    stream_handler.setFormatter(formatter)
+
+    app.logger.addHandler(stream_handler)
+    app.logger.addHandler(rotate_handler)
+
+    app.logger.info('初始化日志成功')
